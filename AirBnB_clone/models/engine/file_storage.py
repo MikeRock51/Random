@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """File Storage module for persisting instances"""
 
+import json
+
 
 class FileStorage:
     """
@@ -23,5 +25,11 @@ class FileStorage:
         setattr(__objects, type(obj).__name__, obj)
 
     def save(self):
-        """Serilizes __objects to file.json"""
+        """Serializes __objects to file.json"""
+        with open(self.__file_path, 'w') as file:
+            json.dump(self.__objects, file)
 
+    def reload(self):
+        """Deserializes the Json file to __objects"""
+        with open(self.__file_path) as file:
+            self.__objects = json.load(file)
