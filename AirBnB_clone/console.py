@@ -88,7 +88,10 @@ class HBNBCommand(cmd.Cmd):
         print(class_instances)
 
     def do_update(self, line):
-        """
+        """Updates an instance based on class name and id"""
+
+
+
 
 
     def help_show(self):
