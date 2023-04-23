@@ -5,6 +5,7 @@
 from uuid import uuid4
 from datetime import datetime
 from models import storage
+from copy import copy
 
 
 class BaseModel:
@@ -37,7 +38,7 @@ class BaseModel:
 
     def to_dict(self):
         """Generates a dictionary representation of an instance"""
-        instance = self.__dict__
+        instance = copy(self.__dict__)
         instance['__class__'] = type(self).__name__
         instance['created_at'] = instance['created_at'].isoformat()
         instance['updated_at'] = instance['updated_at'].isoformat()

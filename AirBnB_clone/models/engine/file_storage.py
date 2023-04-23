@@ -33,6 +33,14 @@ class FileStorage:
                 objs[key] = value.to_dict()
             json.dump(objs, file)
 
+    def class_list(self):
+            from models.base_model import BaseModel
+            from models.user import User
+            return {
+            'BaseModel': BaseModel,
+            'User': User
+            }
+
     def reload(self):
         """Deserializes the Json file to __objects"""
         from models.base_model import BaseModel
@@ -42,6 +50,6 @@ class FileStorage:
             with open(self.__file_path, 'r') as file:
                 json_load = json.load(file)
             for key, value in json_load.items():
-                self.__objects[key] = BaseModel(**value)
+                self.__objects[key] = BaseModel(**value) 
         else:
             return
