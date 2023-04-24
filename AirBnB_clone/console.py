@@ -7,11 +7,21 @@ from models.base_model import BaseModel
 from models.user import User
 from models.engine.file_storage import FileStorage
 from models import storage
-
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+            
 class_list = {
         'BaseModel': BaseModel,
-        'User': User
- }
+        'User': User,
+        'Place': Place,
+        'State': State,
+        'City': City,
+        'Amenity': Amenity,
+        'Review': Review
+}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -119,9 +129,40 @@ class HBNBCommand(cmd.Cmd):
             setattr(instance, args[2], eval(args[3]))
             instance.save()
 
+    def do_count(self, line):
+        """Retrieves the number of instances of a class"""
+        if not line: 
+            print("** class name missing **")
+        elif line not in class_list:
+            print("** class doesn't exist **")
+        else:
+            count = 0
+            all_instances = storage.all()
+            for instance in all_instances.values():
+                if instance.__class__.__name__ == line:
+                    count += 1
+            print(count)
+
+
     def help_show(self):
         print('\n'.join(["Prints the string representation of an instance",
                 "based on class name and id"]))
+
+    def parseline(self, line):
+        """Parses commands to suit console syntac before execution"""
+        if '.' in line:
+            parsed_line = line.split('.')
+            if '"' in parsed_line[1]:
+                id = parsed_line[1].split('"')[1]
+                parsed_line = parsed_line[1].split('(')[0], parsed_line[0]
+                parsed_line = parsed_line + (id,)
+            else:
+                parsed_line = parsed_line[1].strip('()'), parsed_line[0]
+            print(parsed_line)
+            parsed_line = ' '.join(parsed_line)
+            return cmd.Cmd.parseline(self, parsed_line)
+        else:
+            return cmd.Cmd.parseline(self, line)
 
 
 if __name__ == '__main__':
