@@ -50,6 +50,9 @@ class FileStorage:
             with open(self.__file_path, 'r') as file:
                 json_load = json.load(file)
             for key, value in json_load.items():
-                self.__objects[key] = BaseModel(**value) 
+                # print(value['__class__'])
+                calling_class = self.class_list()[value['__class__']]
+                # print(calling_class)
+                self.__objects[key] = calling_class(**value) 
         else:
             return
