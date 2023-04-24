@@ -153,12 +153,18 @@ class HBNBCommand(cmd.Cmd):
         if '.' in line:
             parsed_line = line.split('.')
             if '"' in parsed_line[1]:
-                id = parsed_line[1].split('"')[1]
-                parsed_line = parsed_line[1].split('(')[0], parsed_line[0]
-                parsed_line = parsed_line + (id,)
+                if parsed_line[1].split('(')[0] == 'update':
+                    clean_line = [ln for ln in parsed_line[1].split('"')[1:] if ln != ", " and ln != ')']
+                    id = clean_line[0]
+                    attr_name = clean_line[1]
+                    attr_value = f"'{clean_line[2]}'"
+                    parsed_line = ("update", parsed_line[0], id, attr_name, attr_value)
+                else:
+                    id = parsed_line[1].split('"')[1]
+                    parsed_line = parsed_line[1].split('(')[0], parsed_line[0]
+                    parsed_line = parsed_line + (id,)
             else:
                 parsed_line = parsed_line[1].strip('()'), parsed_line[0]
-            print(parsed_line)
             parsed_line = ' '.join(parsed_line)
             return cmd.Cmd.parseline(self, parsed_line)
         else:
