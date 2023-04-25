@@ -3,6 +3,7 @@
 
 
 import cmd
+import json
 from models.base_model import BaseModel
 from models.user import User
 from models.engine.file_storage import FileStorage
@@ -31,11 +32,13 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, line):
         """Exits the interpreter"""
+        print("You say make I QUIT?")
         return True
 
-    def do_EOF(self, line):
-        """Exits the interpreter when it encounters EOF signal"""
-        return True
+    #def do_EOF(self, line):
+     #   """Exits the interpreter when it encounters EOF signal"""
+      #  return True
+    do_EOF = do_quit
 
     def emptyline(self):
         pass
@@ -154,11 +157,22 @@ class HBNBCommand(cmd.Cmd):
             parsed_line = line.split('.')
             if '"' in parsed_line[1]:
                 if parsed_line[1].split('(')[0] == 'update':
-                    clean_line = [ln for ln in parsed_line[1].split('"')[1:] if ln != ", " and ln != ')']
-                    id = clean_line[0]
-                    attr_name = clean_line[1]
-                    attr_value = f"'{clean_line[2]}'"
-                    parsed_line = ("update", parsed_line[0], id, attr_name, attr_value)
+                    if '{' in parsed_line[1].split(',')[1]:
+                        id = parsed_line[1].split('"')[1]
+                        kwargs = parsed_line[1].split(',', 1)[1].strip(' )')
+                        kwargs = kwargs.replace("'", '"')
+                        kwargs = json.loads(kwargs)
+                        for i, (key, value) in enumerate(kwargs.items()):
+                            if i < len(kwargs) - 1:
+                                self.onecmd(f"update {parsed_line[0]} {id} {key} '{value}'")
+                            else:
+                                parsed_line = ("update", parsed_line[0], id, key, str(value))
+                    else:
+                        clean_line = [ln for ln in parsed_line[1].split('"')[1:] if ln != ", " and ln != ')']
+                        id = clean_line[0]
+                        attr_name = clean_line[1]
+                        attr_value = f"'{clean_line[2]}'"
+                        parsed_line = ("update", parsed_line[0], id, attr_name, attr_value)
                 else:
                     id = parsed_line[1].split('"')[1]
                     parsed_line = parsed_line[1].split('(')[0], parsed_line[0]
