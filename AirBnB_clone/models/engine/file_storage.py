@@ -15,9 +15,16 @@ class FileStorage:
     __objects = {}
 
 
-    def all(self):
+    def all(self, cls=None):
         """Returns all stored instances"""
-        return FileStorage.__objects
+        if cls is not None:
+            reqObjects = {}
+            for key, value in self.__objects.items():
+                if value.to_dict()['__class__'] == cls.__name__:
+                    reqObjects[key] = value
+            return reqObjects
+        else:
+            return FileStorage.__objects
 
     def new(self, obj):
         """
@@ -32,13 +39,15 @@ class FileStorage:
             for key, value in self.__objects.items():
                 objs[key] = value.to_dict()
             json.dump(objs, file)
-            print("Saved!")
 
     def delete(self, obj=None):
         """Deletes obj from __objects"""
         if obj is not None:
-            if obj in self.__objects:
-                del(self.__objects[obj])
+            keyToDel = ''
+            for key, value in self.__objects.items():
+                if obj.to_dict() == value.to_dict():
+                    keyToDel = key
+            del(self.__objects[keyToDel])
 
     def class_list(self):
             from models.base_model import BaseModel
