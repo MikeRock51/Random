@@ -6,10 +6,19 @@ from uuid import uuid4
 from datetime import datetime
 from models import storage
 from copy import copy
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, Integer, Datetime, ForeignKey
+from sqlalchemy.orm import relationship
+
+Base = declarative_base()
 
 
 class BaseModel:
     """Defines all common attributes and methods for other classes"""
+
+    id = Column(String(60), nullable=False, primary_key=True)
+    created_at = Column(Datetime, nullable=False, default=datetime.utcnow())
+    updated_at = Column(Datetime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Object contructor"""
@@ -29,14 +38,18 @@ class BaseModel:
             if kwargs:
                 for key, value in kwargs.items():
                     setattr(self, key, value)
-            storage.new(self)
 
     def __str__(self):
         return (f"[{type(self).__name__}] ({self.id}) {self.__dict__}")
 
+    def delete(self):
+        """Deletes the current instance"""
+        storage.delete(self)
+
     def save(self):
         """Updates the updated_at attribute to current time"""
         self.updated_at = datetime.now()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
