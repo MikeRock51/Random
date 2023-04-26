@@ -45,12 +45,22 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, line):
         """Creates a new instance of BaseModel"""
+        line = line.split()
         if not line:
             print('** class name missing **')
-        elif line not in class_list:
+        elif line[0] not in class_list:
             print("** class doesn't exist **")
         else:
-            instance = class_list[line]()
+            if len(line) == 1:
+                instance = class_list[line[0]]()
+            else:
+                kwargs = {}
+                for param in line[1:]:
+                    params = param.split('=')
+                    key = params[0]
+                    value = eval(params[1].replace('_', ' '))
+                    kwargs[key] = value
+                instance = class_list[line[0]](**kwargs)
             instance.save()
             print(instance.id)
 
@@ -152,8 +162,8 @@ class HBNBCommand(cmd.Cmd):
                 "based on class name and id"]))
 
     def parseline(self, line):
-        """Parses commands to suit console syntac before execution"""
-        if '.' in line:
+        """Parses commands to suit console syntax before execution"""
+        if '.' in line and '=' not in line:
             parsed_line = line.split('.')
             if '"' in parsed_line[1]:
                 if parsed_line[1].split('(')[0] == 'update':

@@ -14,7 +14,7 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Object contructor"""
 
-        if kwargs:
+        if kwargs and 'id' in kwargs:
             for key, value in kwargs.items():
                 if key == '__class__':
                     continue
@@ -26,6 +26,9 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            if kwargs:
+                for key, value in kwargs.items():
+                    setattr(self, key, value)
             storage.new(self)
 
     def __str__(self):

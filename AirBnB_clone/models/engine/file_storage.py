@@ -32,6 +32,13 @@ class FileStorage:
             for key, value in self.__objects.items():
                 objs[key] = value.to_dict()
             json.dump(objs, file)
+            print("Saved!")
+
+    def delete(self, obj=None):
+        """Deletes obj from __objects"""
+        if obj is not None:
+            if obj in self.__objects:
+                del(self.__objects[obj])
 
     def class_list(self):
             from models.base_model import BaseModel
