@@ -10,4 +10,8 @@ class State(BaseModel, Base):
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
     if HBNB_TYPE_STORAGE == 'db':
-        cities = relationship('City')
+        cities = relationship('City', cascade="all, delete", backref="state")
+    else:
+        @property
+        def cities(self):
+            return self.cities
