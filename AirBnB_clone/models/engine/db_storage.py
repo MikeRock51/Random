@@ -21,5 +21,18 @@ class DBStorage:
             Base.metadata.drop_all(engine)
 
     def all(self, cls=None):
+        objects = {}
         if cls is not None:
-            result = self.__session.query(cls).all()
+            queryResults = self.__session.query(cls).all()
+
+            for result in queryResult:
+                key = "{}.{}".format(result.__class__.__name__, result.id)
+                objects[key] = result
+        else:
+            for className in [User, State, City, Amenity, Place, Review]:
+                queryResult = self.__session.query(className).all()
+                for result in queryResult:
+                    key = "{}.{}".format(result.__class__.__name__, result.id)
+                    objects[key] = result
+        return objects
+
