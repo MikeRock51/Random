@@ -39,7 +39,7 @@ class DBStorage:
                 key = "{}.{}".format(result.__class__.__name__, result.id)
                 objects[key] = result
         else:
-            for className in [City, State, User, Place]:
+            for className in [City, State, User, Place, Review]:
                 queryResult = self.__session.query(className).all()
                 for result in queryResult:
                     key = "{}.{}".format(result.__class__.__name__, result.id)
