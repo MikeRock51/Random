@@ -6,13 +6,14 @@ from models.base_model import BaseModel, Base
 from models.engine.file_storage import FileStorage
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
 class State(BaseModel, Base):
     """The state class"""
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    if HBNB_TYPE_STORAGE == 'db':
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship('City', cascade="all, delete", backref="state")
     else:
         @property

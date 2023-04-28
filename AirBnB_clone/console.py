@@ -107,9 +107,9 @@ class HBNBCommand(cmd.Cmd):
             for instance in all_instances.values():
                 if line:
                     if instance.__class__.__name__ == line:
-                        class_instances.append(str(instance))
+                        class_instances.append(str(instance).strip('"'))
                 else:
-                    class_instances.append(str(instance))
+                    class_instances.append(str(instance).strip('"'))
         print(class_instances)
 
     def do_update(self, line):
