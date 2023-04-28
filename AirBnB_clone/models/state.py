@@ -2,7 +2,10 @@
 """The state model"""
 
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from models.engine.file_storage import FileStorage
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
 
 class State(BaseModel, Base):
@@ -14,4 +17,9 @@ class State(BaseModel, Base):
     else:
         @property
         def cities(self):
-            return self.cities
+            stateCities = []
+            for key, value in FileStorage.__objects.items():
+                if value.to_dict().__class__ == 'City'\
+                        and value.to_dict().state_id == self.id:
+                    stateCities.append(value)
+            return stateCities

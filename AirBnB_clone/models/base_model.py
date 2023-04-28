@@ -6,8 +6,8 @@ from uuid import uuid4
 from datetime import datetime
 from models import storage
 from copy import copy
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, Datetime, ForeignKey
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
 Base = declarative_base()
@@ -17,8 +17,8 @@ class BaseModel:
     """Defines all common attributes and methods for other classes"""
 
     id = Column(String(60), nullable=False, primary_key=True)
-    created_at = Column(Datetime, nullable=False, default=datetime.utcnow())
-    updated_at = Column(Datetime, nullable=False, default=datetime.utcnow())
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Object contructor"""
