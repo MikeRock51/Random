@@ -58,7 +58,7 @@ class BaseModel:
         instance['__class__'] = type(self).__name__
         instance['created_at'] = instance['created_at'].isoformat()
         instance['updated_at'] = instance['updated_at'].isoformat()
-        if '_sa_instance_state' in instance.keys():
+        if '_sa_instance_state' in instance:
             del(instance['_sa_instance_state'])
 
         return instance

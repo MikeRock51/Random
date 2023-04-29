@@ -20,7 +20,7 @@ class FileStorage:
         if cls is not None:
             reqObjects = {}
             for key, value in self.__objects.items():
-                if value.to_dict()['__class__'] == cls.__name__:
+                if type(value) == cls:
                     reqObjects[key] = value
             return reqObjects
         else:
