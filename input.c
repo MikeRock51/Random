@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	scanf("%d", &num);
 
 
-	while (num >= 0)
+	while (num >= 1)
 	{
 		printf("%s is Awesome\n", name);
 		num--;

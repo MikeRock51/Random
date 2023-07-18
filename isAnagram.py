@@ -3,7 +3,6 @@
 import time
 
 def isAnagram(s: str, t: str) -> bool:
-    start = time.time()
 
     if len(s) != len(t):
         return False
@@ -12,25 +11,28 @@ def isAnagram(s: str, t: str) -> bool:
     to = {}
 
     for c in s:
-        if not so[c]:
+        if not c in so:
             so[c] = 1
         else:
             so[c] += 1
 
-        if not to[c]:
+    for c in t:
+        if not c in to:
             to[c] = 1
         else:
             to[c] += 1
 
-    for key, value in so:
-        if to[key] != so[key]:
+    for key, value in so.items():
+        if not to.get(key) or to[key] != so[key]:  
             return False
-
-    end = time.time()
-    print(f'Time: {end - start}')
-
+ 
     return True
 
-print(isAnagram("anagram", "nagaram"))
-print(isAnagram("car", "rat"))
+start = time.perf_counter()
+#print(isAnagram("car", "rat"))
+#print(isAnagram("anagram", "nagaram"))
+print(isAnagram("car", "crate"))
+end = time.perf_counter()
+print(f'Time: {end - start}')
+#print(isAnagram("anagram", "nagaram"))
 
