@@ -14,5 +14,6 @@ def factorial(n: int) -> int:
 
 
 if __name__ == '__main__':
-    print(factorial(5))
+    print(factorial(7))
+    print(factorial(10))
     print(memo)
