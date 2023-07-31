@@ -11,4 +11,6 @@ from typing import Set
 
 
 def possibleSubsets(inputSet: Set[int]) -> Set[Set[int]]:
+    subSets = set()
 
+    def boundingFunction() 
