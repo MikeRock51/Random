@@ -12,4 +12,4 @@ function fibGen(n) {
     return fib;
 }
 
-console.log(fibGen(1))
+console.log(fibGen(7))
