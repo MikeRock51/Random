@@ -23,7 +23,7 @@ def sortVowels(s: str) -> str:
 
     try:
         sVowels[0]
-    except Exception:
+    except IndexError:
         print("No vowels found")
         return s
 
