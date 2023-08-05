@@ -29,8 +29,8 @@ def subsetSum(fullSet: List[int], target: int) -> List[int]:
                 subSet.append(n)
                 found, result = backtrack(i + 1, currSum + n, subSet)
                 if found:
-                    return found, result
-                subSet.pop()
+                    return found, subSet
+                subSet.remove(n)
 
         return False, []
 
