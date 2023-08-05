@@ -17,6 +17,7 @@ from typing import List
 def subsetSum(fullSet: List[int], target: int) -> List[int]:
     """Returns a list of array element that sums up to target"""
     setLen = len(fullSet)
+    fullSum = sum(fullSet)
 
     def backtrack(start: int, currSum, subSet) -> None:
         """Finds the first subset that sums up to target"""
@@ -27,9 +28,9 @@ def subsetSum(fullSet: List[int], target: int) -> List[int]:
             n = fullSet[i]
             if currSum + n <= target:
                 subSet.append(n)
-                found, result = backtrack(i + 1, currSum + n, subSet)
+                found, subSet = backtrack(i + 1, currSum + n, subSet)
                 if found:
-                    return found, result
+                    return found, subSet
                 subSet.pop()
 
         return False, []
@@ -42,6 +43,3 @@ if __name__ == "__main__":
     target = 30
     subSet = subsetSum(fullSet, target)
     print(subSet)
-    fullSet = [2, 4, 6, 8, 10]
-    target = 14
-    print(subsetSum(fullSet, target))
