@@ -27,15 +27,14 @@ def subsetSum(fullSet: List[int], target: int) -> List[int]:
             n = fullSet[i]
             if currSum + n <= target:
                 subSet.append(n)
-                found, result = backtrack(i + 1, currSum + n, subSet)
+                found = backtrack(i + 1, currSum + n, subSet)
                 if found:
-                    return found, subSet
+                    return subSet
                 subSet.remove(n)
 
-        return False, []
+        return []
 
-    return backtrack(0, 0, [])[1]
-
+    return backtrack(0, 0, [])
 
 if __name__ == "__main__":
     fullSet = [5, 10, 12, 13, 15, 18]
