@@ -1,0 +1,4 @@
+#!/bin/env bash
+
+apt update
+apt install -y  sudo net-tools telnet iproute2 ufw
