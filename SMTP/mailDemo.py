@@ -2,22 +2,18 @@
 
 from os import getenv
 import smtplib
+from email.message import EmailMessage
 
 email = getenv("EMAIL")
 password = getenv("PWD")
+msg = EmailMessage()
+msg['Subject'] = "Think and Grow Rich"
+msg['From'] = email
+msg['To'] = "mikerockmusic51@gmail.com"
+msg.set_content("Count down 5...4...3...2...1..")
 
-with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-    smtp.ehlo()
-    smtp.starttls()
-    smtp.ehlo()
-
+with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
     smtp.login(email, password)
-
-    subject = "SMTP Check 1,2"
-    body = "I wonder if we could have done it like this all along"
-
-    msg = f"Subject: {subject} \n\n{body}"
-
-    smtp.sendmail(email, "havemercyonmike@yahoo.com", msg)
+    smtp.send_message(msg)
 
 print("Email sent")
