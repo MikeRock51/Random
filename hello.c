@@ -1,16 +1,11 @@
 #include <stdio.h>
 
 
-int sum(int n1, int n2);
-
 int main(void)
 {
-	printf("Hello Ekene");
-	printf("%d\n", sum(10, 10));
+	printf("Since I'm too tired to code anything meaningful\n");
+	printf("I don't want to break my perfect streak\n");
+	printf("That's why I'm doing this\n");
+	printf("I will make it up tomorrow\n");
 	return (0);
-}
-
-int sum(int n1, int n2)
-{
-	return (n1 + n2);
 }
